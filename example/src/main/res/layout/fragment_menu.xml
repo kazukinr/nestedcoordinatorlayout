@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MenuFragment">
+
+    <data>
+
+        <variable
+            name="listener"
+            type="com.github.kazukinr.nestedcoordinatorlayout.example.MenuFragment.Listener" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/topGuideLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="16dp" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="@string/menu_title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintTop_toTopOf="@id/topGuideLine" />
+
+        <TextView
+            android:id="@+id/both"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="?attr/selectableItemBackground"
+            android:onClick="@{() -> listener.onBothClicked()}"
+            android:padding="8dp"
+            android:text="@string/menu_both"
+            android:textAppearance="@style/TextAppearance.AppCompat.Menu"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <TextView
+            android:id="@+id/parentFirst"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:onClick="@{() -> listener.onParentFirstClicked()}"
+            android:padding="8dp"
+            android:text="@string/menu_parent_first"
+            android:textAppearance="@style/TextAppearance.AppCompat.Menu"
+            app:layout_constraintTop_toBottomOf="@id/both" />
+
+        <TextView
+            android:id="@+id/childFirst"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:onClick="@{() -> listener.onChildFirstClicked()}"
+            android:padding="8dp"
+            android:text="@string/menu_child_first"
+            android:textAppearance="@style/TextAppearance.AppCompat.Menu"
+            app:layout_constraintTop_toBottomOf="@id/parentFirst" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
+
