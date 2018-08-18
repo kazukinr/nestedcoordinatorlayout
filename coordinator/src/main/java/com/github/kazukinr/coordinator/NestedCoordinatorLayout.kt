@@ -73,7 +73,7 @@ class NestedCoordinatorLayout @JvmOverloads constructor(
     private fun handleNestedPreScrollChildFirst(target: View, dx: Int, dy: Int, consumed: IntArray, type: Int) {
         val consumedByParent = IntArray(2)
         super.onNestedPreScroll(target, dx, dy, consumed, type)
-        dispatchNestedPreScroll(dx - consumed[0], dy - consumed[0], consumedByParent, null, type)
+        dispatchNestedPreScroll(dx - consumed[0], dy - consumed[1], consumedByParent, null, type)
 
         consumed[0] += consumedByParent[0]
         consumed[1] += consumedByParent[1]
