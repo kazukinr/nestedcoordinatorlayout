@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="NestedCoordinatorLayout">
+
+        <attr name="consumePreScrollUp" format="integer">
+            <enum name="both" value="0" />
+            <enum name="parentFirst" value="1" />
+            <enum name="childFirst" value="2" />
+        </attr>
+
+        <attr name="consumePreScrollDown" format="integer">
+            <enum name="both" value="0" />
+            <enum name="parentFirst" value="1" />
+            <enum name="childFirst" value="2" />
+        </attr>
+
+    </declare-styleable>
+
+</resources>
