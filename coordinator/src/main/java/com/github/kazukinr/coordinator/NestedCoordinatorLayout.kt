@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.math.MathUtils
 import androidx.core.view.NestedScrollingChild2
 import androidx.core.view.NestedScrollingChildHelper
 
@@ -16,18 +15,18 @@ class NestedCoordinatorLayout @JvmOverloads constructor(
 
     private val childHelper = NestedScrollingChildHelper(this)
 
-    private val consumePreScrollUp: ConsumePreScrollStrategy
-    private val consumePreScrollDown: ConsumePreScrollStrategy
+    var preScrollUp: PreScrollStrategy
+    var preScrollDown: PreScrollStrategy
 
     init {
         isNestedScrollingEnabled = true
 
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.NestedCoordinatorLayout)
-        consumePreScrollUp = ConsumePreScrollStrategy.findByParam(
-                typedArray.getInt(R.styleable.NestedCoordinatorLayout_consumePreScrollUp, 0)
+        preScrollUp = PreScrollStrategy.findByParam(
+                typedArray.getInt(R.styleable.NestedCoordinatorLayout_preScrollUp, 0)
         )
-        consumePreScrollDown = ConsumePreScrollStrategy.findByParam(
-                typedArray.getInt(R.styleable.NestedCoordinatorLayout_consumePreScrollDown, 0)
+        preScrollDown = PreScrollStrategy.findByParam(
+                typedArray.getInt(R.styleable.NestedCoordinatorLayout_preScrollDown, 0)
         )
         typedArray.recycle()
     }
@@ -39,16 +38,16 @@ class NestedCoordinatorLayout @JvmOverloads constructor(
 
     override fun onNestedPreScroll(target: View, dx: Int, dy: Int, consumed: IntArray, type: Int) {
         if (dy > 0) {
-            when (consumePreScrollUp) {
-                ConsumePreScrollStrategy.BOTH -> handleNestedPreScrollBoth(target, dx, dy, consumed, type)
-                ConsumePreScrollStrategy.PARENT_FIRST -> handleNestedPreScrollParentFirst(target, dx, dy, consumed, type)
-                ConsumePreScrollStrategy.CHILD_FIRST -> handleNestedPreScrollChildFirst(target, dx, dy, consumed, type)
+            when (preScrollUp) {
+                PreScrollStrategy.BOTH -> handleNestedPreScrollBoth(target, dx, dy, consumed, type)
+                PreScrollStrategy.PARENT_FIRST -> handleNestedPreScrollParentFirst(target, dx, dy, consumed, type)
+                PreScrollStrategy.CHILD_FIRST -> handleNestedPreScrollChildFirst(target, dx, dy, consumed, type)
             }
         } else {
-            when (consumePreScrollDown) {
-                ConsumePreScrollStrategy.BOTH -> handleNestedPreScrollBoth(target, dx, dy, consumed, type)
-                ConsumePreScrollStrategy.PARENT_FIRST -> handleNestedPreScrollParentFirst(target, dx, dy, consumed, type)
-                ConsumePreScrollStrategy.CHILD_FIRST -> handleNestedPreScrollChildFirst(target, dx, dy, consumed, type)
+            when (preScrollDown) {
+                PreScrollStrategy.BOTH -> handleNestedPreScrollBoth(target, dx, dy, consumed, type)
+                PreScrollStrategy.PARENT_FIRST -> handleNestedPreScrollParentFirst(target, dx, dy, consumed, type)
+                PreScrollStrategy.CHILD_FIRST -> handleNestedPreScrollChildFirst(target, dx, dy, consumed, type)
             }
         }
     }
@@ -156,13 +155,13 @@ class NestedCoordinatorLayout @JvmOverloads constructor(
         return childHelper.dispatchNestedFling(velocityX, velocityY, consumed)
     }
 
-    enum class ConsumePreScrollStrategy(val param: Int) {
+    enum class PreScrollStrategy(val param: Int) {
         BOTH(0),
         PARENT_FIRST(1),
         CHILD_FIRST(2);
 
         companion object {
-            fun findByParam(param: Int): ConsumePreScrollStrategy =
+            fun findByParam(param: Int): PreScrollStrategy =
                     values().singleOrNull { it.param == param } ?: BOTH
         }
     }
